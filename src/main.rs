@@ -1,11 +1,11 @@
 use std::fs;
-
 fn main() {
-    print!("apply square :{}",apply(2,square));
-}
-fn square(value:i32) -> i32 {
-    value * value
-}
-fn apply(value:i32,f:fn(i32)->i32) -> i32 {
-    f(value)
+    let url = "https://www.rust-lang.org/";
+    let output = "rust.md";
+    println!("Fetching url: {}", url);
+    let body = reqwest::blocking::get(url).unwrap().text().unwrap();
+    println!("Converting html to markdown...");
+    let md = html2md::parse_html(&body);
+    fs::write(output, md.as_bytes()).unwrap();
+    println!("Converted markdown has been saved in {}.", output);
 }
